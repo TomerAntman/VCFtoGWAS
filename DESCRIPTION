@@ -6,7 +6,7 @@ Author: Tomer Antman
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-Imports: vcfR, evaluate, stringr, readr, psych
+Imports: vcfR, statgenGWAS, evaluate, stringr, dplyr, rstudioapi, devtools, readr, psych
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

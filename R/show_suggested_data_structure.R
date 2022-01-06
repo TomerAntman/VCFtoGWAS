@@ -21,10 +21,12 @@ show_suggested_data_structure<-function(){
     "Results/Chapter2-Analysis/Step2.1-Create_gData",
     "Results/Chapter2-Analysis/Step2.1-Create_gData/gData.RDS",
     "Results/Chapter2-Analysis/Step2.1-Create_gData/Step2.2-Single_Trait_GWAS",
-    "Results/Chapter2-Analysis/Step2.1-Create_gData/Step2.2-Single_Trait_GWAS/GWAS.RDS",
-    "Results/Chapter3-Conclusions",
-    "Results/Chapter3-Conclusions/Step3.1-Visualizations",
-    "Results/Chapter3-Conclusions/Step3.1-Visualizations/Results1.pdf"
+    "Results/Chapter2-Analysis/Step2.1-Create_gData/Step2.2-Single_Trait_GWAS/GWAS_Result.RDS",
+    "Results/Chapter2-Analysis/Step2.1-Create_gData/Step2.2-Single_Trait_GWAS/Significant_SNPs_information.csv",
+    "Results/Chapter2-Analysis/Step2.1-Create_gData/Step2.2-Single_Trait_GWAS/complete_results_plots.pdf"
+    # "Results/Chapter3-Conclusions",
+    # "Results/Chapter3-Conclusions/Step3.1-Visualizations",
+    # "Results/Chapter3-Conclusions/Step3.1-Visualizations/Results1.pdf"
     )
   data.tree::as.Node(data.frame(pathString = path))
 }

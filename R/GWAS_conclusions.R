@@ -25,7 +25,7 @@ GWAS_conclusions <- function(GWAS,
     snp_full_data <- Create_complete_snp_data(GWAS_trial_snps,
                                               checked_trait,
                                               mapping_info,
-                                              genes_df = VCFtoGWAS::SacCer_sgd_cds)
+                                              genes_df = SacCer_sgd_cds)
 
     # eval(parse(text = paste0(GWAS_trial_name,"_",checked_trait," = snp_full_data")))
 
@@ -37,7 +37,7 @@ GWAS_conclusions <- function(GWAS,
 
 
 
-  pdf(file=paste0(dir_to_save,"/",GWAS_file_name,"-Plots_combined.pdf"), onefile = TRUE,
+  pdf(file=paste0(dir_to_save,"/",GWAS_file_name,"-Plots.pdf"), onefile = TRUE,
       width = 14, height = 10)
 
   #specify to save plots in 2x2 grid
@@ -51,7 +51,8 @@ GWAS_conclusions <- function(GWAS,
       name <- paste0("SNPs-",GWAS_file_name,
                      "_Trial-",GWAS_trial_name,
                      "_Trait-",checked_trait)
-      #* collect significant snps for this trait in this trial
+
+
       sigsnp <- GWAS$signSnp[[GWAS_trial_name]]
       if (checked_trait %in% sigsnp$trait){
         sigsnp <-sigsnp[sigsnp$trait==checked_trait,"snp"]
@@ -74,16 +75,6 @@ GWAS_conclusions <- function(GWAS,
 
       ##########
       plot_names <- paste0("Trial: ",GWAS_trial_name,". Trait: ",checked_trait)
-      #* data wrangle for plots #####
-      gwas_data <- GWAS$GWAResult[[GWAS_trial_name]]
-      gwas_data <- gwas_data[gwas_data$trait == checked_trait,c("snp","chr","pos","pValue","effect")]
-
-      #* get y threshold of the p_value (whatever was set in the GWAS)
-      ythr <- GWAS$thr[[GWAS_trial_name]][[checked_trait]]
-
-      #* change column names to match the plot code
-      colnames(gwas_data)<- c("SNP","CHR","BP","P","EFF")
-
 
       Headline_plot <-ggplot() +
         annotate("text", x = 1, y = 1, size = 10,
@@ -94,16 +85,17 @@ GWAS_conclusions <- function(GWAS,
 
       #* 1) draw qq plot for all the results #####
       message("\nCreating QQ\n")
+
       # qqman::qq(gwas_data$P, main = paste0("QQ: ",plot_names), cex.main = 0.7)
-      qq_plot <- as.ggplot(function()  qqman::qq(gwas_data$P)) +
-        ggtitle("QQ plot")
+      qq_plot <- as.ggplot(function()  qqman::qq(GWAS_trial$pValue[GWAS_trial$trait==checked_trait])) +
+        labs(title = "Q-Q plot", subtitle = paste0("Trial: ", GWAS_trial_name,"; Trait: ",checked_trait))
         # ggtitle(paste0("QQ: ",plot_names))
 
       plots <- base::append(plots, list(qq_plot = qq_plot))
 
       #* 2) draw manhattan plot for all the results #####
       message("\nCreating manhattan\n")
-      manhat_plot <-plot_manhattan(gwas_data, sigsnp, ythr)
+      manhat_plot <-plot_manhattan(GWAS, GWAS_trial_name ,checked_trait)
       manhat_plot <- manhat_plot + ggtitle("Manhattan plot")
 
       plots <- base::append(plots, list(manhat_plot = manhat_plot))
@@ -115,23 +107,27 @@ GWAS_conclusions <- function(GWAS,
 
         #* 3) Polygenic score ######
         message("\nCreating Polygenic score\n")
-        pol_effect <- polygenic_effect_score(GWAS, gData,
-                                             GWAS_trial_name, checked_trait, sigsnp,
-                                             bin =   grepl("bin",checked_trait))
+        pol_effect <- polygenic_effect_score(gData, GWAS,
+                                             GWAS_trial_name, checked_trait)
         effect_details <- pol_effect$effect_scores
-        effect_plot <- pol_effect$effect_plot +
-          ggtitle("Polygenic Effect Score")
+        effect_plot <- pol_effect$effect_plot
         # ggtitle(paste0("Polygenic Effect Score: ",plot_names))
 
         # print(effect_plot)
+        pol_score_name <- paste0("Effect_Score-",GWAS_file_name,
+                       "_Trial-",GWAS_trial_name,
+                       "_Trait-",checked_trait)
+        message("\nSaving csv for ",pol_score_name,"\n")
+        write.csv(pol_effect$effect_scores,
+                  file = paste0(dir_to_save,"/",pol_score_name,".csv"),
+                  row.names = TRUE)
 
         plots <- base::append(plots, list(effect_plot = effect_plot))
 
         #* 4) histograms ######
         message("\nCreating allele VS fitness\n")
-        alleleVSfitness <- allele_presence_plot(gData,
-                                                GWAS_trial_name, checked_trait, sigsnp,
-                                                bin =   grepl("bin",checked_trait))
+        alleleVSfitness <- allele_presence_plot(gData, GWAS,
+                                                GWAS_trial_name, checked_trait)
 
         alleleVSfitness <- alleleVSfitness +
           ggtitle("allele VS fitness")

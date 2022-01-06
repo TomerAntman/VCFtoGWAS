@@ -6,7 +6,9 @@ Get_GWAS_matrix <- function(gt_GTonly_filt_expand,
                             only_SNPs = FALSE,
                             dir_results = getwd(),
                             results_name = name_by_time(),
-                            do_save = TRUE){
+                            do_save = TRUE,
+                            filter_zeros = TRUE){
+  if(is.null(results_name)){results_name = name_by_time()}
   if(do_save){
     if(only_SNPs){step_name = "Step1.4-GWAS_Matrix-only_SNPs"
     }else{step_name = "Step1.4-GWAS_Matrix"}
@@ -15,15 +17,15 @@ Get_GWAS_matrix <- function(gt_GTonly_filt_expand,
                                           results_name = results_name)
   }
   if (only_SNPs){
-    message("Deleting all INDELs from the data (only SNPs will remain")
-    SNP_rows <- which(nchar(fix_filt$ALT)==1 & nchar(fix_filt$REF)==1)
-    fix_filt <- fix_filt[SNP_rows, ]
+    message("\nDeleting all INDELs from the data (only SNPs will remain\n")
+    SNP_rows <- which(nchar(fix_filt_expand$ALT)==1 & nchar(fix_filt_expand$REF)==1)
+    fix_filt_expand <- fix_filt_expand[SNP_rows, ]
     gt_GTonly_filt <- gtGTonly[SNP_rows, ]
     indication <- indication[SNP_rows]
   }
 
   #* keep unique names
-  rownames(gt_GTonly_expand) <- make.names(rownames(gt_GTonly_filt_expand), unique = TRUE)
+  rownames(gt_GTonly_filt_expand) <- make.names(rownames(gt_GTonly_filt_expand), unique = TRUE)
   if(!require("stringr")){install.packages("stringr")}
   #* Create empty matrix of the same size with NAs
 
@@ -102,7 +104,15 @@ Get_GWAS_matrix <- function(gt_GTonly_filt_expand,
 
   ###############
 
-  ##* Finish gwas matrix
+  ##* Finish GWAS matrix:
+  #* Omit any variants that turned out to be all 0 (snps that don't appear in the population at all)
+  if(filter_zeros){
+    relevant_rows <- apply(GWAS_mat, 1, function(x) !(all(x==0 |is.na(x))))
+    GWAS_mat <- GWAS_mat[relevant_rows, ]
+    fix_filt_expand <- fix_filt_expand[relevant_rows, ]
+  }
+
+
   #* `rs` stands for 'reference SNP'
   rows <- sprintf("%s%0*d", "rs",1, 1:nrow(fix_filt_expand))
   rownames(fix_filt_expand) <- rows
@@ -112,18 +122,18 @@ Get_GWAS_matrix <- function(gt_GTonly_filt_expand,
   if(!require("psych")){install.packages("psych", quiet = TRUE)}
   psych::headTail(GWAS_mat[,1:15])
 
-  message(Sys.time(), " - Finished gwas matrix")
+  message(Sys.time(), " - Finished gwas matrix\n")
 
   if(do_save){
-    message("Saving files to: ", results_directory)
+    message("Saving files to: ", results_directory,"\n")
     Save_as_RDS(list(GWAS_mat = GWAS_mat,
-                     mapping_info = fix_filt),
+                     mapping_info = fix_filt_expand),
                 directory = results_directory)
 
     return_list = list(directory = results_directory,
-                       mapping_info = fixed_data,
+                       mapping_info = fix_filt_expand,
                        GWAS_mat = GWAS_mat)
-  }else{return_list = list(mapping_info = fixed_data,
+  }else{return_list = list(mapping_info = fix_filt_expand,
                            GWAS_mat = GWAS_mat)}
   return(return_list)
 }

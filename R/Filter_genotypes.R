@@ -6,7 +6,9 @@ Filter_genotypes<- function (genotype_matrix,
                              results_name =  name_by_time(),
                              do_save = TRUE,
                              on_columns = TRUE,
-                             filter_by = c("./.")){
+                             filter_zeros = TRUE){
+
+  if(is.null(results_name)){results_name = name_by_time()}
   if(do_save){
     step_name = "Step1.2-Filter_genotypes"
     results_directory <- create_directory(called_from = step_name,
@@ -36,18 +38,14 @@ Output files will be identical to input files.")
 
     ##* Omit irrelevant SNP rows:
 
-    if(length(filter_by)==1){
+    if(filter_zeros){
       message(Sys.time()," - Finding SNPs to keep")
-      relevant_rows <- apply(filtered_gt, 1, function(x) !(all(x==filter_by |
-                                                                 is.na(x))))
-    }else if(length(filter_by)==2){
+      relevant_rows <- apply(filtered_gt, 1, function(x) !(all(x=="0/0" | is.na(x))))
+    }else{
       message(Sys.time()," - Finding SNPs to keep")
       #* if length is 2, I expect filter_by = c("./.","0/0")
-      relevant_rows <- apply(filtered_gt, 1, function(x) !(all(x==filter_by[1] |
-                                                                 x==filter_by[2]|
-                                                                 is.na(x))))
-    }else(stop("Problem with filter_by parameter. Length isn't 1 nor 2\n
-             filter_by is adivsed to be either c('./.') or c('./.','0/0')"))
+      relevant_rows <- apply(filtered_gt, 1, function(x) !(all(is.na(x))))
+    }
 
     ###
     message(Sys.time()," - Update: \nOut of ",dim(filtered_gt)[1]," initial SNP rows, \n",

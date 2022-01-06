@@ -6,7 +6,7 @@ Filter the genotypes (strains)
 }
 \description{
 This function serves for step 2 of chapter 1 of the "Using VCFtoGWAS package" markdown series.\cr
-Based on an array of specific starins, the genotype matrix is filtered to only contain those strains.\cr
+Based on an array of specific strains, the genotype matrix is filtered to only contain those strains.\cr
 Afterwards, Rows that now contain irrelevant SNPs (that add no information) are omitted.
 }
 \usage{
@@ -17,7 +17,7 @@ Filter_genotypes(genotype_matrix,
                  results_name = name_by_time(),
                  do_save = TRUE,
                  on_columns = TRUE,
-                 filter_by = c("./."))
+                 filter_zeros = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -42,7 +42,7 @@ Do you wish to save the results? (will be saved as RDS files) (Default is \code{
   \item{on_columns}{
 all actions assume that the strain names appear in the column names. If for some reason the entered matrix is transposed (strains in row names), than this parameter should be given as \code{FALSE} (default is \code{TRUE}).
 }
-  \item{filter_by}{
+  \item{filter_zeros}{TRUE by default. The function filters variants that are all NA. If this parameter is TRUE, it also filters variant rows for which the variant doesn't appear in any of the genotypes.
 %%     ~~Describe \code{filter_by} here~~
 }
 }

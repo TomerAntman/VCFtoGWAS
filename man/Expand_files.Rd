@@ -27,7 +27,7 @@ expand_files(gt_GTonly_filt,
 }
 \details{
 For very large files it might take a while.\cr\cr
-An explenation about the \code{indication} array that is returned:\cr
+An explanation about the \code{indication} array that is returned:\cr
 If for example, row number 3 in \code{fix_filt} represents some position that has two ALTs (like: [C, TG]) for a REF (like: [A]),  in \code{fix_filt_expand} it will be two rows (as 3.0, 3.1) with only one ALT in each.\cr
 The \code{indication} array will get a "1" for row 3.0 and "2" for row 3.1. This array is the link between the data in the \code{fix_filt_expand} and the data in \code{gt_GTonly_filt_expand}.\cr
 The \code{indication[i]} gives us the id number of the alternative sequence in a certain location.\cr

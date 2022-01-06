@@ -11,7 +11,7 @@ Upload_vcf_to_R <- function(vcf_file,
                             do_return = TRUE,
                             get_chr_info = TRUE,
                             fix_columns = c("CHROM","POS","REF","ALT","QUAL")){
-
+  if(is.null(results_name)){results_name = name_by_time()}
   if (!do_save & !do_return){
     message("Nothing will be saved and nothing will be returned.\nThere is no point running the function")
     return()

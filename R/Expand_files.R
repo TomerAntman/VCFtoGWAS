@@ -3,6 +3,8 @@ Expand_files <- function(gt_GTonly_filt,
                          dir_results = getwd(),
                          results_name = name_by_time(),
                          do_save = TRUE){
+
+  if(is.null(results_name)){results_name = name_by_time()}
   if(do_save){
     step_name = "Step1.3-Expand"
     results_directory <- create_directory(called_from = step_name,

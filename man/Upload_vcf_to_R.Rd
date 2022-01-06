@@ -11,7 +11,8 @@ This script loads the vcf file that you want to work with  (either processed by 
 \usage{
 Upload_vcf_to_R(vcf_file,
                 dir_results = getwd(),
-                results_name = NaN, do_save = TRUE,
+                results_name = name_by_time(),
+                do_save = TRUE,
                 do_return = TRUE,
                 get_chr_info = TRUE,
                 fix_columns = c("CHROM","POS","REF","ALT","QUAL"))

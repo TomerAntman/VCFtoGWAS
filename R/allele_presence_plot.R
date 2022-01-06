@@ -1,21 +1,32 @@
 allele_presence_plot<-function(gData,
+                               GWAS,
                                GWAS_trial_name,
-                               checked_trait,
-                               sigsnp,
-                               bin){
+                               checked_trait){
 
 
   if(!require("data.table")) install.packages("data.table")
   library(data.table)
   if(!require("ggplot2")) install.packages("ggplot2")
   library(ggplot2)
-  markers <- gData$markers[,sigsnp]
-  phenos <- gData$pheno[[GWAS_trial_name]]
-  rownames(phenos)<- rownames(markers)
-  strains <- phenos["genotype"][[1]]
-  phenos <- phenos[strains, c("genotype",checked_trait)]
 
-  df_hist <- cbind(phenos,markers)
+  bin =   grepl("bin",checked_trait)
+
+  eval(parse(text = paste0(
+    "sigsnp <- GWAS$signSnp$",GWAS_trial_name,"$snp[GWAS$signSnp$",GWAS_trial_name,"$trait=='",checked_trait,"']"
+  )))
+  markers <- gData$markers[,colnames(gData$markers) %in% sigsnp]
+  phenos <- gData$pheno[[GWAS_trial_name]]
+
+  temp_df <- as.data.frame(matrix(nrow = nrow(markers), ncol = 2))
+  colnames(temp_df) <- c("genotype",checked_trait)
+  rownames(temp_df) <- rownames(markers)
+
+
+  strains <- phenos["genotype"][[1]]
+  temp_df[strains,] <- phenos[, c("genotype",checked_trait)]
+
+
+  df_hist <- cbind(temp_df,markers)
 
   molten.data <- melt(as.data.table(df_hist), id = c("genotype",checked_trait))
   colnames(molten.data)[c(2,4)]<- c("trait","allele_presence")
@@ -46,7 +57,7 @@ allele_presence_plot<-function(gData,
       }}
     color_hues <- gg_color_hue(length(unique(molten.data$trait)))
 
-    pp<- ggplot(molten.data, aes(x = as.factor(trait),
+    pp <- ggplot(molten.data, aes(x = as.factor(trait),
                             y = allele,
                             colour = as.factor(allele_presence),
                             size = count), alpha = 0.8) +
@@ -59,6 +70,8 @@ allele_presence_plot<-function(gData,
       theme(
             panel.background = element_blank()) +
       facet_wrap(~variable) +
+      labs(title= "SNP Allele Presence in correlation to fitness",
+           subtitle = paste0("Trial: ", GWAS_trial_name,"; Trait: ",checked_trait)) +
       xlab(checked_trait) +
       ylab("SNP allele presence") +
       guides(color = 'none', size = 'none')
@@ -106,7 +119,9 @@ allele_presence_plot<-function(gData,
       theme_bw() +
       facet_wrap(~variable, scales = "free") +
       xlab(checked_trait) +
-      labs(fill = "SNP allele presence") +
+      labs(title= "SNP Allele Presence in correlation to fitness",
+           subtitle = paste0("Trial: ", GWAS_trial_name,"; Trait: ",checked_trait),
+           fill = "SNP allele presence") +
       guides(fill = guide_legend(override.aes =
                                    list(colour = color_hues))) +
       geom_text(data = dat_text, aes(label = label),

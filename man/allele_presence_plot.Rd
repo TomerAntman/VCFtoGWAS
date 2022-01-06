@@ -1,0 +1,151 @@
+\name{allele_presence_plot}
+\alias{allele_presence_plot}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{ Allele presence correlating to feature
+%%  ~~function to do ... ~~
+}
+\description{
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+}
+\usage{
+allele_presence_plot(gData, GWAS, GWAS_trial_name, checked_trait)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{gData}{
+%%     ~~Describe \code{gData} here~~
+}
+  \item{GWAS}{
+%%     ~~Describe \code{GWAS} here~~
+}
+  \item{GWAS_trial_name}{
+%%     ~~Describe \code{GWAS_trial_name} here~~
+}
+  \item{checked_trait}{
+%%     ~~Describe \code{checked_trait} here~~
+}
+}
+\details{
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+%%  ~~who you are~~
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (gData, GWAS, GWAS_trial_name, checked_trait)
+{
+    if (!require("data.table"))
+        install.packages("data.table")
+    library(data.table)
+    if (!require("ggplot2"))
+        install.packages("ggplot2")
+    library(ggplot2)
+    bin = grepl("bin", checked_trait)
+    eval(parse(text = paste0("sigsnp <- GWAS$signSnp$", GWAS_trial_name,
+        "$snp[GWAS$signSnp$", GWAS_trial_name, "$trait=='", checked_trait,
+        "']")))
+    markers <- gData$markers[, colnames(gData$markers) \%in\% sigsnp]
+    phenos <- gData$pheno[[GWAS_trial_name]]
+    temp_df <- as.data.frame(matrix(nrow = nrow(markers), ncol = 2))
+    rownames(temp_df) <- rownames(markers)
+    strains <- phenos["genotype"][[1]]
+    temp_df[strains, ] <- phenos[, c("genotype", checked_trait)]
+    df_hist <- cbind(temp_df, markers)
+    molten.data <- melt(as.data.table(df_hist), id = c("genotype",
+        checked_trait))
+    colnames(molten.data)[c(2, 4)] <- c("trait", "allele_presence")
+    if (!require("dplyr"))
+        install.packages("dplyr")
+    library(dplyr)
+    molten.data <- molten.data \%>\% mutate(allele = recode(allele_presence,
+        `0` = "0/0", `1` = "1/0", `2` = "1/1")) \%>\% mutate(allele = as.factor(allele))
+    colnames(molten.data)[2] <- "trait"
+    gg_color_hue <- function(n) {
+        hues = seq(15, 375, length = n + 1)
+        hcl(h = hues, l = 65, c = 100)[1:n]
+    }
+    if (bin) {
+        molten.data$count <- NA
+        for (var in unique(molten.data$variable)) {
+            for (trait in unique(molten.data$trait)) {
+                for (allele in c(0, 1, 2)) {
+                  relevant_rows <- (molten.data$variable == var &
+                    molten.data$trait == trait & molten.data$allele_presence ==
+                    allele)
+                  molten.data$count[relevant_rows] <- length(which(relevant_rows))
+                }
+            }
+        }
+        color_hues <- gg_color_hue(length(unique(molten.data$trait)))
+        pp <- ggplot(molten.data, aes(x = as.factor(trait), y = allele,
+            colour = as.factor(allele_presence), size = count),
+            alpha = 0.8) + geom_point() + geom_text(aes(label = count),
+            colour = "black", size = 3) + theme_bw() + scale_size_continuous(range = c(5,
+            20)) + theme(panel.background = element_blank()) +
+            facet_wrap(~variable) + labs(title = "SNP Allele Presence in correlation to fitness",
+            subtitle = paste0("Trial: ", GWAS_trial_name, "; Trait: ",
+                checked_trait)) + xlab(checked_trait) + ylab("SNP allele presence") +
+            guides(color = "none", size = "none")
+    }
+    else {
+        val_tab <- table(molten.data$allele_presence[molten.data$variable ==
+            sigsnp[1]])
+        label <- paste0(paste0("0/0: ", val_tab["0"]), "\n",
+            paste0(" 1/0: ", val_tab["1"]), "\n", paste0(" 1/1: ",
+                val_tab["2"]))
+        for (snp in sigsnp[2:length(sigsnp)]) {
+            val_tab <- table(molten.data$allele_presence[molten.data$variable ==
+                snp])
+            label <- c(label, paste0(paste0("0/0: ", val_tab["0"]),
+                "\n", paste0(" 1/0: ", val_tab["1"]), "\n", paste0(" 1/1: ",
+                  val_tab["2"])))
+        }
+        molten.data <- molten.data[!is.na(molten.data$trait),
+            ]
+        dat_text <- data.frame(label = label, variable = sigsnp)
+        color_hues <- gg_color_hue(length(unique(molten.data$allele)))
+        pp <- molten.data \%>\% ggplot(aes(x = trait)) + geom_density(aes(x = trait,
+            fill = allele), alpha = 0.2) + theme_bw() + facet_wrap(~variable,
+            scales = "free") + xlab(checked_trait) + labs(title = "SNP Allele Presence in correlation to fitness",
+            subtitle = paste0("Trial: ", GWAS_trial_name, "; Trait: ",
+                checked_trait), fill = "SNP allele presence") +
+            guides(fill = guide_legend(override.aes = list(colour = color_hues))) +
+            geom_text(data = dat_text, aes(label = label), x = -Inf,
+                y = Inf, hjust = -0.2, vjust = 1.3)
+    }
+    return(pp)
+  }
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory (show via RShowDoc("KEYWORDS")):
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }
+% Use only one keyword per line.
+% For non-standard keywords, use \concept instead of \keyword:
+% \concept{ ~cpt1 }
+% \concept{ ~cpt2 }
+% Use only one concept per line.

@@ -1,12 +1,13 @@
 create_gData <- function(GWAS_mat,
-                         map,
+                         mapping_info,
                          phenotype,
                          trial=2,
                          features=3,
                          covariate = NULL,
                          do_save = TRUE,
                          dir_results = getwd(),
-                         results_name = NA
+                         results_name = NA,
+                         delete_duplicates = FALSE
                          ){
   if(do_save){
     step_name = "Step2.1-gData_creation"
@@ -24,7 +25,7 @@ create_gData <- function(GWAS_mat,
     install.packages("statgenGWAS")
   }
   library(statgenGWAS)
-
+  map <- mapping_info
   #* Rename Chromosome and Position columns.
   colnames(map)[match(c("CHROM","POS"), colnames(map))] <- c("chr","pos")
   #* make the chromosome be only numbers and the position numeric
@@ -48,14 +49,14 @@ create_gData <- function(GWAS_mat,
 
   gDataDedup <- tryCatch(expr = {
     message("\n\nTrying to use codeMarkers\n")
-    codeMarkers(gData, impute = TRUE, verbose = TRUE)
+    codeMarkers(gData,removeDuplicates = delete_duplicates, impute = TRUE, verbose = TRUE)
   }, error = function(cond){
     if (grepl("cannot allocate vector", cond)){
       message(cond,"\nThe memory limit is: ~", round(memory.limit()/1000),"Gb.\nIncreasing memory limit...\n")
       s = memory.limit()
       memory.limit(s*10)
       message("\nmemory increased. Trying to use codeMarkers\n")
-      codeMarkers(gData, impute = TRUE, verbose = TRUE)
+      codeMarkers(gData, removeDuplicates = delete_duplicates, impute = TRUE, verbose = TRUE)
     }
   }
   )
@@ -65,8 +66,7 @@ create_gData <- function(GWAS_mat,
 
   if(do_save){
     message("\nSaving gData RDS file to: ", results_directory,"\n")
-    Save_as_RDS(list(gData = gDataDedup,
-                     mapping_info = mapping_info),
+    Save_as_RDS(list(mapping_info = mapping_info, gData = gDataDedup),
                 directory = results_directory)
 
     results_list <- list(gData = gDataDedup,
