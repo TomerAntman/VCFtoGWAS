@@ -38,7 +38,9 @@ The returned information includes attributes such as location in the genome and 
 \references{
 Data source for CDS \href{http://rsat.sb-roscoff.fr/data/genomes/}{file extraction}
 
-To create the final dataframe used as input, I used \code{\link{create_SacCer_sgd_cds}}
+To create the final dataframe used as input, I used \file{create_SacCer_sgd_cds.R}
+
+
 }
 \author{
 Tomer Antman

@@ -1,8 +1,3 @@
-usethis::use_package("psych")
-usethis::use_package("vcfR")
-usethis::use_package("evaluate")
-usethis::use_package("stringr")
-usethis::use_package("readr")
 
 Upload_vcf_to_R <- function(vcf_file,
                             dir_results = getwd(),

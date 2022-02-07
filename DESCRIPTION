@@ -1,12 +1,22 @@
 Package: VCFtoGWAS
 Type: Package
 Title: Get GWAS out of VCF file
-Version: 0.1.0
+Version: 0.1.2
 Author: Tomer Antman
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-Imports: vcfR, statgenGWAS, evaluate, stringr, dplyr, rstudioapi, devtools, readr, psych
+Imports: 
+    vcfR,
+    statgenGWAS,
+    evaluate,
+    stringr,
+    dplyr,
+    rstudioapi,
+    devtools,
+    readr,
+    psych,
+    ggplot2
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

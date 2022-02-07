@@ -22,14 +22,18 @@ Build_offspring_GWAS_matrix(parent_GWAS_mat,
 \arguments{
   \item{parent_GWAS_mat}{A GWAS matrix (composed of 0,1,2,NA) where the rownames are the parent strains}
   \item{offspring_strains}{An array of the names of the offspring, must be composed of the parent names}
+
    \item{dir_results}{The directory in which a folder will be created and results will be saved. Make sure it exists!!!}
-  \item{results_name}{The name of the folder in which the results will be saved within dir_results (default is a time stamp, see \code{\link{create_directory}})}
-\item{do_save}{Do you wish to save the results? (will be saved as RDS files) (Default is TRUE)}
+
+  \item{results_name}{The name of the folder in which the results will be saved within dir_results (default is a time stamp, see \file{create_directory} function)}
+  \item{do_save}{Do you wish to save the results? (will be saved as RDS files) (Default is TRUE)}
+
   \item{seed}{The function includes random sampling. A seed can be set and changed.}
-  \item{save_hashed_matrix}{Do you wish to also save the the "mid-product" of the function (the hashed matrix). Default is \code{FALSE}}
+
+  \item{save_hashed_matrix}{Do you wish to also save the the "mid-product" of the function (the hashed matrix). Default is \verb{FALSE}}
 %%     ~~Describe \code{x} here~~
 }
-}
+
 \details{
 Hashing the table:\cr
 If parent1 is "BNI" and parent2 is "BKE" than the offspring name is "BNIBKE".\cr
@@ -71,14 +75,7 @@ Un-hashing the table:\cr
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (x)
-{
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

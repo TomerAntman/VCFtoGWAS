@@ -11,8 +11,8 @@ Function ment to create subdirectories to save the results of the current step.\
 }
 \usage{
 create_directory(called_from,
-                 dir_results = \code{\link[base]{getwd}}(),
-                 results_name = \code{\link{name_by_time}}())
+                 dir_results = base::getwd(),
+                 results_name = VCFtoGWAS::name_by_time())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,7 +25,7 @@ If entered directory doesn't exist (or no direcotry was entered), the subfolder 
 }
   \item{results_name}{
 The results_name parameter dictates the folder (within dir_results folder) that will be created to save the results.\cr
-If the results name isn't changed from the default (\code{\link{name_by_time}}), then a name based on time will be constructed. Step name is always added.
+If the results name isn't changed from the default (\file{name_by_time}), then a name based on time will be constructed. Step name is always added.
 Examples: \itemize{
 \item By default: \emph{"2021-12-15_10.58_Step1-Upload_VCF-results"}
 \item Non default: \emph{"OnlyHomozygousStrains_Step1-Upload_VCF-results"}

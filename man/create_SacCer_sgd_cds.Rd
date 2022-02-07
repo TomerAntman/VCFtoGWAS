@@ -1,30 +1,16 @@
-\name{allele_presence_plot}
-\alias{allele_presence_plot}
+\name{create_SacCer_sgd_cds}
+\alias{create_SacCer_sgd_cds}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{ Allele presence correlating to feature
+\title{Create SacCer_sgd_cds file for complete SNP info
 %%  ~~function to do ... ~~
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-allele_presence_plot(gData, GWAS, GWAS_trial_name, checked_trait)
+create_SacCer_sgd_cds()
 }
 %- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{gData}{
-%%     ~~Describe \code{gData} here~~
-}
-  \item{GWAS}{
-%%     ~~Describe \code{GWAS} here~~
-}
-  \item{GWAS_trial_name}{
-%%     ~~Describe \code{GWAS_trial_name} here~~
-}
-  \item{checked_trait}{
-%%     ~~Describe \code{checked_trait} here~~
-}
-}
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
@@ -39,7 +25,7 @@ allele_presence_plot(gData, GWAS, GWAS_trial_name, checked_trait)
 %% ~put references to the literature/web site here ~
 }
 \author{
-Tomer Antman
+%%  ~~who you are~~
 }
 \note{
 %%  ~~further notes~~
