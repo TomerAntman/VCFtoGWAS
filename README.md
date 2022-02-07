@@ -10,4 +10,4 @@ This Repo contains the package of VCFtoGWAS in R
 devtools::install_github("TomerAntman/VCFtoGWAS")
 ```
 
-</div>
+
