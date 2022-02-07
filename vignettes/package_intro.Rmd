@@ -1,0 +1,39 @@
+---
+title: "package_intro"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{package_intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(VCFtoGWAS)
+```
+
+# Motivation
+
+### *GWAS*
+
+The aim of Genome‐wide association studies (GWAS) is to identify single nucleotide polymorphisms (SNPs) of which the allele frequencies vary systematically as a function of phenotypic trait values.  
+
+Identification of trait‐associated SNPs may subsequently reveal new insights into the biological mechanisms underlying these phenotypes. 
+
+The main package used here for GWAS is "statgenGWAS" 
+
+
+### *VCF* 
+
+VCF files are big genetic files and working with them might be complicated. 
+
+
+The main package used here for loading the vcf file is "vcfR" 
+
+
