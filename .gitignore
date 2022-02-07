@@ -1,1 +1,8 @@
-inst/doc
+
+# History files
+.Rhistory
+.Rapp.history
+
+# RStudio files
+VCFtoGWAS.Rproj
+.Rproj*
