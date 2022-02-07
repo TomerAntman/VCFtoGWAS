@@ -119,63 +119,6 @@ Build_offspring_GWAS_matrix <- function(parent_GWAS_mat,
 
 
 
-  # message(Sys.time()," - Un-hashing the matrix...\nThis might take a while...\n")# Progress bar added:")
-  #
-  #   if(!require("progress")){
-  #     install.packages("progress", quiet = T)
-  #   }
-  #   library(progress, quietly = T)
-  #
-  #   n_iter <- dim(offspring_GWAS_mat)[1] * dim(offspring_GWAS_mat)[2]
-  #
-  #   pb <- progress_bar$new(format = "[:bar] :percent",
-  #                          total = n_iter,
-  #                          complete = "=",   # Completion bar character
-  #                          incomplete = "-", # Incomplete bar character
-  #                          current = ">",    # Current bar character
-  #                          clear = FALSE,    # If TRUE, clears the bar when finish
-  #                          width = 100)      # Width of the progress bar
-
-
-  # for (strain in 1:nrow(offspring_GWAS_mat)) {
-  #
-  #   for (snp in 1:ncol(offspring_GWAS_mat)){
-  #     #* if it's NA just skip it (it will stay NA)
-  #     if(is.na(offspring_GWAS_mat[strain, snp])){next}
-  #
-  #     offspring_GWAS_mat[strain, snp] <- switch(
-  #       offspring_GWAS_mat[strain, snp] + 1,
-  #
-  #       #* 1st index (the value is 0):
-  #       0, # (0 + 0) + (0 * 0) = 0 -> *0*
-  #
-  #       #* 2nd index (the value is 1):
-  #       sample(c(0,1),1), # (0 + 1) + (0 * 1) = 1 -> *0 or 1*
-  #
-  #       #* 3rd index (the value is 2):
-  #       1, # (0 + 2) + (0 * 2) = 2 => 1
-  #
-  #       #* 4th index (the value is 3):
-  #       sample(c(0,1,2), 1, prob = c(0.25,0.5,0.25)), # (1 + 1) + (1 * 1) = 3 -> *0 or 1 or 2*
-  #
-  #       #* 5th index (the value is 4):
-  #       NULL, # there is no 4
-  #
-  #       #* 6th index (the value is 5):
-  #       sample(c(1,2),1), # (1 + 2) + (1 * 2) = 5 -> *1 or 2*
-  #
-  #       #* 7th index (the value is 6):
-  #       NULL, # there is no 6
-  #
-  #       #* 8th index (the value is 7):
-  #       NULL, # there is no 7
-  #
-  #       #* 9th index (the value is 8):
-  #       2 # (2 + 2) + (2 * 2) = 8 -> *2*
-  #     )
-  #     # pb$tick()
-  #   }
-  # }
 } #end function
 
 

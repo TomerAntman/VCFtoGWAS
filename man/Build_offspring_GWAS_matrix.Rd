@@ -25,7 +25,8 @@ Build_offspring_GWAS_matrix(parent_GWAS_mat,
 
    \item{dir_results}{The directory in which a folder will be created and results will be saved. Make sure it exists!!!}
 
-  \item{results_name}{The name of the folder in which the results will be saved within dir_results (default is a time stamp, see \file{create_directory} function)}
+  \item{results_name}{The name of the folder in which the results will be saved within dir_results (default is a time stamp, see \code{\link{create_directory}} function)}
+
   \item{do_save}{Do you wish to save the results? (will be saved as RDS files) (Default is TRUE)}
 
   \item{seed}{The function includes random sampling. A seed can be set and changed.}
@@ -53,36 +54,12 @@ Un-hashing the table:\cr
 
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+The returned object is a list of length 3 or 1:
+\item{offspring_GWAS_mat}{The created GWAS matrix of the offspring (always returned)}
+\item{mapping_info_offspring}{The mapping info linking between the SNPs and their location (after the creation of the new matrix, some SNPs are removed)}
+\item{results_directory}{If the results are saved, this is the directory where they were saved}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
-%%  ~~who you are~~
+Tomer Antman
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.

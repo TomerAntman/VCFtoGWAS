@@ -1,29 +1,18 @@
 ---
-title: "package_intro"
-author: Tomer Antman
+title: "General"
+author: "Tomer Antman"
 output: rmarkdown::html_vignette
-  #toc: true
 vignette: >
-  %\VignetteIndexEntry{package_intro}
+  %\VignetteIndexEntry{General}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
+```{r setup, echo=FALSE}
 library(VCFtoGWAS)
 ```
-# Package Manual {.tabset}
 
-## General {.tabset}
-
-### Motivation
+## Motivation
 
 #### *GWAS*
 
@@ -44,24 +33,18 @@ The main package used here for loading the vcf file is "[vcfR](https://cran.r-pr
 If a server with stronger computation is available, it is required to run most of the functions on it (especially chapter 1).\
 For now, the R markdown files that show how to use the package step by step (chapter 1 and chapter 2) aren't publicly available. You can send an email [the maintainer]() of the package
 
-\|For Weizmann institute users: \|The package is recommended to be executed on the WEXAC R server. \|All the required packages are installed on R 4.1.1 so this is recommended. \|As for plotting, there are some issues with the WEXAC server so save the files and run the plots and pdf creations from your computer (unless you know how to save it)
+[For Weizmann institute users: The package is recommended to be executed on the WEXAC R server. All the required packages are installed on R 4.1.1 so this is recommended. As for plotting, there are some issues with the WEXAC server so save the files and run the plots and pdf creations from your computer (unless you know how to save it)]{style="font-size: 10pt"}
 
 ### Installing the package
 
-```{r}
+```{r, eval = FALSE}
 if(!require("devtools")){install.packages("devtools")}
 
 devtools::install_github("TomerAntman/VCFtoGWAS") 
 ```
 
-### Output structure 
-```{r, echo = FALSE}
+### Output structure
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
 show_suggested_data_structure()
 ```
-
-## Chapter 1 - VCF file to GWAS matrix {.tabset}
-
-### Step 1.1 - Upload VCF to R 
-...
-
-### Step 1.2 - Filter
