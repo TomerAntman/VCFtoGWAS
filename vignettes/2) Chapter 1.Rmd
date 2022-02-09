@@ -2,7 +2,7 @@
 title: "Chapter 1 - VCF file to GWAS matrix"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{General}
+  %\VignetteIndexEntry{2) Chapter 1}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,7 +13,7 @@ vignette: >
 library(VCFtoGWAS)
 ```
 
-| If you have access to the Rmarkdown files, you'll find them [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/Eu-SoaGKGHpFg4vmw3foIFkBEbQX-Q1HbImk568filyjuQ?e=yTizdO)
+| If you have access to the Rmarkdown files, you'll find the files for this chapter [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/Eu-SoaGKGHpFg4vmw3foIFkBLKL_LkRHQzPAhDQze6RtVw?e=BTfSCD)
 
 ## Step 1.1 - Upload VCF to R
 

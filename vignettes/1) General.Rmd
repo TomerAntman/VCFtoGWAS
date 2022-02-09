@@ -135,10 +135,12 @@ paste_directory<-function(){gsub('"',"",gsub("\\\\\\\\","/",readClipboard()))}
 
 ```
 
-And then every time I copy the directory and just write in the Rstudio console:
+And then every time I copy the directory and just write in the Rstudio console: `paste_directory()`
 
+#### Common error
 ```{=html}
-<code>paste_directory()</code>
+<p style="color:red">Error: cannot allocate vector of size ... </p>
 ```
+The solution is increasing the memory limit by running `memory.limit()` to check the current limitation and then increasing it by `memory.limit(size = ...)`
 
 ------------------------------------------------------------------------

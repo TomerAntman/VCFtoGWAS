@@ -1,0 +1,264 @@
+---
+title: "Chapter 2 - Run GWAS and Analyze"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{3) Chapter 2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<!-- Website built with pkgdown::build_site()  -->
+
+```{r setup, echo=FALSE}
+library(VCFtoGWAS)
+```
+
+| If you have access to the Rmarkdown files, you'll find the files for this chapter [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/EguMukXHpppAg4O4d2aP0f8BOifz0nWod-xTC_-pqnz2EA?e=3jXJ8p)
+
+In this chapter the GWAS is executed and the results are then analyzed. The package "[statgenGWAS](https://github.com/Biometris/statgenGWAS/)" is the package that will mainly be used. To run the single-trait-GWAS, an object known as "gData" object needs to be provided.
+
+## Step 2.1 - Create gData
+
+In this step a "gData" object is created. It will contain all data needed for performing analyses, so the first thing to do when using the statgenGWAS package is to create it.
+
+The gData object consists of a few components:
+
+1.  The Marker map (`map`) - is used to describe the physical positions of the markers on the chromosomes. The data consists of two columns, `chr` for the name or number of the chromosome and `pos` for the position of the marker on the chromosome.\
+2.  The Marker matrix (`marker`) - contains the names of the markers in column names and the genotypes in the row names. Markers can either be coded as character strings or as numerical values.\
+3.  Phenotypic data (`pheno`) - can either be a single data.frame or a list of data.frames for storing data for different trials or different summarizations of the original data. The first column of all elements of `pheno` should be genotype and all the other columns should represent different traits.
+
+Hence, we begin with collecting the "phenotypic" data.
+
+The phenotypes need to be loaded into the functions as a data.frame of features in which:
+
+-   First column - contains all strain names. Name: "genotype"
+
+-   Second column - contains the trial parameter (example: "Glucose" or "Glycerol").
+
+    [if you don't have any (only one condition), give the column a generic identical value for all rows]
+
+-   Rest of the columns are the features and need to have clear names and numeric values.
+
+The gData also accepts covariates. Read more about the covariate option in the statgenGWAS package vignette. The covariate is entered to the function as a data.frame with strains as rownames. Make sure you notice all the parameters before running the [create_gData]((https://tomerantman.github.io/VCFtoGWAS/reference/create_gData.html)) function (such as where the results will be saved)
+
+Categorized features need to include the word "bin" in them (just because that's how I wrote the code)
+
+------------------------------------------------------------------------
+
+## Step 2.2 - Single Trait GWAS
+
+In this step, the "single trait GWAS" will be executed based on the gData object from the previous step.
+
+If you wish to add randomization to your data (mix up the features) this is the step to do that.
+
+| If you have access to the markdown files - In "Chunk 5: add randomization" you need to make sure "Randomize" parameter is TRUE and choose the number of randomizations ("randomizations" parameter).
+
+Eventually, the [runSingleTraitGWAS](https://www.rdocumentation.org/packages/statgenGWAS/versions/1.0.7/topics/runSingleTraitGwas) from "statgenGWAS" is used. If given only the gData, it executes the GWAS using bonferroni for multiple test correction (you can change it by changing the "thrType" parameter) and I advise to read the documentation of the function (click the link above).
+
+This is also the step to separate your gData into training and testing strains if you wish to do so before running the GWAS.
+
+The output here is a GWAS object, out of which we will mainly use "GWAResult" and "signSnp".
+
+Both are lists with the "results"/"significant snps" for each tested media (what is called "trial")
+
+![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step2.2Output.png)
+
+------------------------------------------------------------------------
+
+## Step 2.3 - Conclusions
+
+The idea of this step is get a grasp on your results:
+
+#### [QQ:]{.ul}
+
+Use a [Quantile-Quantile plot](https://www.youtube.com/watch?v=okjYjClSjOg) to see if the p-values are uniformly distributed (up until some SNPs have a higher quantile than expected). Something like this is good:
+
+<!-- ![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/QQResults.png) -->
+
+```{=html}
+<div class="row">
+  <div class="column">
+    <img src="https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/QQResults.png" alt="onGlucose" style="width:50%">
+  </div>
+  <div class="column">
+    <img src="https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/QQResults2.png" alt="onGlucose2" style="width:50%">
+  </div>
+</div>
+```
+This can be achieved by using the "qqman" package with the "qq" function, or by using the plot function of the "statgenGWAS" package.
+
+#### [Manhattan:]{.ul}
+
+Next you use a Manhattan plot to show if SNPs were found significant above the p-value threshold (Bonferroni or FDR)
+
+Either a simple version as can be created using the statgenGWAS package plot function: `plot(GWAS, trial="U",trait="fit")` ![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/ManhattanStatgen.png){width="50%"}
+
+Or by calling the VCFtoGWAS [plot_manhattan](https://tomerantman.github.io/VCFtoGWAS/reference/plot_manhattan.html) function, using ggplot and adding more info:
+
+![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/ManhattanResult.png){width="50%"}
+
+#### [Polygenic Effect Score:]{.ul}
+
+Next, we compute the cumulative polygenic effect score of all the significant SNPs on the fitness. Explanation: - **Ss** = Score of a strain - **VA** = variant (snp) appearance in that strain (0/1/2) - **VE** = Variant effect (according to the GWAS). can be positive or negative Ss(i) = [VA(1)xVE(1) + VA(2)xVE(2) +...+ VA(n)xVE(n) Or in other terms: $$Ss_{i} = \sum_{i=1}^{n} VA_{i}\times VE_{i} \\$$
+
+We may assume "Haploinsufficiency[^1]" for all the SNPs when calculating the score by choosing `haplo_sufficency = FALSE` in the function "[polygenic_effect_score](https://tomerantman.github.io/VCFtoGWAS/reference/polygenic_effect_score.html)"
+
+[^1]: In haploinsufficiency a single copy of the wild-type allele (A) at a locus in heterozygous combination with a variant allele (a) is insufficient to produce the wild-type phenotype. Meaning a/A isn't as "good" as A/A.
+
+But if it is `TRUE` than "Haplo Sufficiency" is assumed and all the places of "1" (a/A) are changed to "0" (as if they are A/A) and all the places of "2" (a/a) are given a "1" instead.
+
+Another parameter that will affect the plotted results is the `do_log2`. If true, instead of plotting the "Ss" on the X axis, the log2[(-Ss)+1] is plotted (in our case, we expect most if not all the SNPs are detrimental, so the scores will be either 0 or negative).
+
+One other thing: notice that out of this function you get 2 outputs!
+
+One of them is the plot itself and the second is a data frame with a column of the trait and a column of the score, this allows further analysis of the results if required (either in R or by exporting it to a csv)
+
+Here are 2 examples of the plot output (one for a regular feature and the other for a categorized feature):
+
+![Regular Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ufit_polscore.png){width="50%"}
+
+![Categorized Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ubinfit_polscore.png){width="50%"}
+
+#### [Trait distribution per SNP alleles:]{.ul}
+
+To grasp the manner in which a trait distributes across all the SNPs, 3 distributions of the trait are drawn for each SNP:
+
+1st for the strains that are homozygous for the major allele (don't have the SNP), 2nd for heterozygous strains for the SNP, and 3rd for homozygous for the minor allele (have the SNP in both alleles).
+
+![Regular Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ufit_alleleVSfit.png){width="50%"}
+
+![Categorized Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ubinfit_alleleVSfit.png){width="50%"}
+
+#### [Exporting the results:]{.ul}
+
+The markdown allows the creation of each plot on its own or creation of a PDF file with all of them for all the media and all the feature (including the randomized features) with exporting CSVs for each.
+
+The plots will be vectors (high quality) and might be heavy. I recommend to open the PDF and print it as a PDF in a lower quality for faster skimming.
+
+The exported CSV looks something like this (per media per feature):
+```{=html}
+<table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">snp</th>
+<th title="Field #2">chr</th>
+<th title="Field #3">pos</th>
+<th title="Field #4">effect</th>
+<th title="Field #5">allFreq</th>
+<th title="Field #6">pValue</th>
+<th title="Field #7">rom_chr</th>
+<th title="Field #8">REF</th>
+<th title="Field #9">ALT</th>
+<th title="Field #10">gene</th>
+<th title="Field #11">start</th>
+<th title="Field #12">end</th>
+<th title="Field #13">strand</th>
+<th title="Field #14">description</th>
+<th title="Field #15">ref_dna</th>
+<th title="Field #16">alt_dna</th>
+<th title="Field #17">ref_aa</th>
+<th title="Field #18">alt_aa</th>
+</tr></thead>
+<tbody><tr>
+<td>rs75889</td>
+<td>4</td>
+<td>432626</td>
+<td>-1.917754411</td>
+<td>0.055099648</td>
+<td>3.84E-09</td>
+<td>IV</td>
+<td>G</td>
+<td>A</td>
+<td>YDL011C</td>
+<td>432308</td>
+<td>432631</td>
+<td>-</td>
+<td>Dubious open reading frame; unlikely to encode a functional protein, based on available experimental and comparative sequence data; overlaps the uncharacterized ORF YDL010W [Source:SGD;Acc:S000002169]</td>
+<td>atggcc…</td>
+<td>atggcc…</td>
+<td>MAD...*</td>
+<td>MAD…*</td>
+</tr>
+<tr>
+<td>rs84422</td>
+<td>4</td>
+<td>657869</td>
+<td>-1.726109591</td>
+<td>0.069167644</td>
+<td>2.13E-09</td>
+<td>IV</td>
+<td>G</td>
+<td>A</td>
+<td>YDR102C</td>
+<td>657648</td>
+<td>657980</td>
+<td>-</td>
+<td>Putative protein of unknown function; conserved among S. cerevisiae strains; YDR102C is not an essential gene; homozygous diploid deletion strain exhibits high budding index [Source:SGD;Acc:S000002509]</td>
+<td>atgact…</td>
+<td>atgact…</td>
+<td>MTL...*</td>
+<td>MTL...*</td>
+</tr>
+<tr>
+<td>rs144135</td>
+<td>6</td>
+<td>89046</td>
+<td>-1.15215202</td>
+<td>0.106682298</td>
+<td>4.93E-07</td>
+<td>VI</td>
+<td>T</td>
+<td>G</td>
+<td>YFL024C</td>
+<td>87847</td>
+<td>90345</td>
+<td>-</td>
+<td>Subunit of NuA4, an essential histone H4/H2A acetyltransferase complex; conserved region at N-terminus is essential for interaction with the NPC (nucleosome core particle); required for autophagy; homologous to Drosophila Enhancer of Polycomb; coding sequence contains length polymorphisms in different strains [Source:SGD;Acc:S000001870]</td>
+<td>atgccg…</td>
+<td>atgccg…</td>
+<td>MPT...*</td>
+<td>MPT...*</td>
+</tr>
+<tr>
+<td>rs174979</td>
+<td>7</td>
+<td>531498</td>
+<td>-1.967251191</td>
+<td>0.032239156</td>
+<td>3.33E-07</td>
+<td>VII</td>
+<td>G</td>
+<td>A</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody></table>
+
+```
+
+Files that contain info about the genes (that the significant SNPs might be in) are included in the package. The data is taken from the CDS file of Saccharomyces Cerevisiae.

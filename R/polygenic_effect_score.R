@@ -2,7 +2,8 @@ polygenic_effect_score<-function(gData,
                                  GWAS,
                                  GWAS_trial_name,
                                  checked_trait,
-                                 haplo_sufficency = TRUE){
+                                 haplo_sufficency = TRUE,
+                                 do_log2 = TRUE){
 
   if(!require("ggplot2")) install.packages("ggplot2")
   library(ggplot2)
@@ -42,6 +43,11 @@ polygenic_effect_score<-function(gData,
 
   df<- data.frame(trait = phenos[strains, checked_trait], poly_score = as.vector(pol_score[strains]))
   rownames(df)<-strains
+  x_label = "SNP effect score"
+  if( do_log2){
+    df$poly_score = log2((-1*df$poly_score)+1)
+    x_label = "Log2[-(SNP effect score)+1]"
+  }
   if (bin){
     pol_plot <- ggplot(df, aes(x = poly_score,
                                y = as.factor(trait),
@@ -53,7 +59,7 @@ polygenic_effect_score<-function(gData,
       labs(title = "Polygenic Effect Score",
            # subtitle = "Categorical fitness on Glycerol",
            subtitle = paste0("Trial: ", GWAS_trial_name,"; Trait: ",checked_trait),
-           x = "SNP effect score",
+           x = x_label,
            y = checked_trait,
            color = checked_trait)
   }else{
@@ -68,7 +74,7 @@ polygenic_effect_score<-function(gData,
         labs(title = "Polygenic Effect Score",
              # subtitle = "Fitness on Glycerol",
              subtitle = paste0("Trial: ", GWAS_trial_name,"; Trait: ",checked_trait),
-             x = "SNP effect score",
+             x = x_label,
              y = checked_trait)
     }else{
       pol_plot <- ggplot(df, aes(x = poly_score, y = trait)) +
@@ -81,7 +87,7 @@ polygenic_effect_score<-function(gData,
         labs(title = "Polygenic Effect Score",
              # subtitle = "Fitness on Glycerol",
              subtitle = paste0("Trial: ", GWAS_trial_name,"; Trait: ",checked_trait),
-             x = "SNP effect score",
+             x = x_label,
              y = checked_trait)
     }
 

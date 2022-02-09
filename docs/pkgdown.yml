@@ -2,8 +2,8 @@ pandoc: 2.14.0.3
 pkgdown: 2.0.2.9000
 pkgdown_sha: ae7363faac9040a473a54fb3d770decdfb8dfec1
 articles:
-  Chapter 1: Chapter 1.html
-  General: General.html
-  package_intro: package_intro.html
-last_built: 2022-02-09T16:22Z
+  1) General: 1) General.html
+  2) Chapter 1: 2) Chapter 1.html
+  3) Chapter 2: 3) Chapter 2.html
+last_built: 2022-02-09T21:42Z
 
