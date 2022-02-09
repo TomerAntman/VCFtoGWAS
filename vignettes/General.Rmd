@@ -51,10 +51,23 @@ show_suggested_data_structure()
 
 ### VCF info
 
-VCF (Variant Call Format) is a text file format (most likely stored in a compressed manner). It contains meta-information lines, a header line, and then data lines each containing information about a position in the genome. The format also has the ability to contain genotype information on samples for each position.
-For more info, I suggest reading the [VCF File-format specifications](https://samtools.github.io/hts-specs/VCFv4.2.pdf) by samtools.
+VCF (Variant Call Format) is a text file format (most likely stored in a compressed manner). It contains meta-information lines, a header line, and then data lines each containing information about a position in the genome. The format also has the ability to contain genotype information on samples for each position. For more info, I suggest reading the [VCF File-format specifications](https://samtools.github.io/hts-specs/VCFv4.2.pdf) by samtools or [Reading VCF data](https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf.html) by BJ Knaus, JF Tabima and NJ Grünwald.
 
-![VCF Cartoon](https://github.com/TomerAntman/VCFtoGWAS/tree/main/man/figures/vcfCartoon.png)
+The cartoon below also demonstrates the division of a VCF file into 3 sections:
+
+1. Meta information (@meta): containing information about the file, its creation, as well as information needed to interpert abbreviations used elsewhere in the file.
+2. Fixed information (@fix): containing information for each variant (SNP or INDEL).
+3. Genotype information (@gt): containing information about each variant for each sample (such as "strain" or "individual")
+
+<center>
+
+![VCF Cartoon](https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf_files/figure-html/unnamed-chunk-1-1.png)
+</center>
+
+A demonstration of how the results appear in the code (as the VCF is loaded using the vcfR package)
+
+![VCF Cartoon](https://github.com/TomerAntman/VCFtoGWAS/tree/main/man/figures/VCF_demo1.png)
+</center>
 
 
 
