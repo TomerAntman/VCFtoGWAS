@@ -6,4 +6,5 @@
 # RStudio files
 VCFtoGWAS.Rproj
 .Rproj*
-docs
+
+passwords
