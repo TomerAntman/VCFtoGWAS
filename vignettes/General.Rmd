@@ -6,28 +6,31 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 <!-- Website built with pkgdown::build_site()  -->
+
 ```{r setup, echo=FALSE}
 library(VCFtoGWAS)
 ```
 
-## Motivation
 
-#### *GWAS*
+## Motivation {.tabset}
+
+### GWAS
 
 The aim of Genome‐wide association studies (GWAS) is to identify single nucleotide polymorphisms (SNPs) of which the allele frequencies vary systematically as a function of phenotypic trait values.
 
 Identification of trait‐associated SNPs may subsequently reveal new insights into the biological mechanisms underlying these phenotypes.
 
-The main package used here for GWAS is "[statgenGWAS](https://cran.r-project.org/web/packages/statgenGWAS/vignettes/GWAS.html)"
+### VCF
 
-#### *VCF*
-
-VCF files are big genetic files and working with them might be complicated.
+VCF files are big, commonly used, genetic files and working with them might be complicated.
+More information on VCF format below.
 
 The main package used here for loading the vcf file is "[vcfR](https://cran.r-project.org/web/packages/vcfR/vignettes/)"
 
------------------------------------
+
+------------------------------------------------------------------------
 
 ## Usage
 
@@ -36,7 +39,7 @@ For now, the R markdown files that show how to use the package step by step (cha
 
 [For Weizmann institute users: The package is recommended to be executed on the WEXAC R server. All the required packages are installed on R 4.1.1 so this is recommended. As for plotting, there are some issues with the WEXAC server so save the files and run the plots and pdf creations from your computer (unless you know how to save it)]{style="font-size: 10pt"}
 
------------------------------------
+------------------------------------------------------------------------
 
 ## Installing the package
 
@@ -45,91 +48,97 @@ if(!require("devtools")){install.packages("devtools")}
 
 devtools::install_github("TomerAntman/VCFtoGWAS") 
 ```
------------------------------------
+
+------------------------------------------------------------------------
+
 ## Output structure
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 show_suggested_data_structure()
 ```
 
------------------------------------
+------------------------------------------------------------------------
+
 ## VCF info
-VCF (Variant Call Format) is a text file format (most likely stored in a compressed manner). It contains meta-information lines, a header line, and then data lines each containing information about a position in the genome. The format also has the ability to contain genotype information on samples for each position. For more info, I suggest reading the [VCF File-format specifications](https://samtools.github.io/hts-specs/VCFv4.2.pdf) by samtools or [Reading VCF data](https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf.html) by BJ Knaus, JF Tabima and NJ Grünwald.
+
+VCF (Variant Call Format) is a text file format (most likely stored in a compressed manner). It contains meta-information lines, a header line, and then data lines each containing information about a position in the genome. The format also has the ability to contain genotype information on samples for each position. For more info, I suggest reading the [VCF File-format specifications](%5Bhttps://samtools.github.io/hts-specs/VCFv4.2.pdf)](<https://samtools.github.io/hts-specs/VCFv4.2.pdf>)) by samtools or [Reading VCF data](%5Bhttps://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf.html)](<https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf.html>)) by BJ Knaus, JF Tabima and NJ Grünwald.
 
 The cartoon below also demonstrates the division of a VCF file into 3 sections:
 
-1. Meta information (@meta): containing information about the file, its creation, as well as information needed to interpert abbreviations used elsewhere in the file.
-2. Fixed information (@fix): containing information for each variant (SNP or INDEL).
-3. Genotype information (@gt): containing information about each variant for each sample (such as "strain" or "individual")
+1\. Meta information (\@meta): containing information about the file, its creation, as well as information needed to interpert abbreviations used elsewhere in the file.
 
-<!-- Control the size of plots/images:
-https://bookdown.org/yihui/rmarkdown-cookbook/figure-size.html-->
+2\. Fixed information (\@fix): containing information for each variant (SNP or INDEL).
+
+3\. Genotype information (\@gt): containing information about each variant for each sample (such as "strain" or "individual")
+
+<!-- Control the size of plots/images: https://bookdown.org/yihui/rmarkdown-cookbook/figure-size.html-->
 
 <center>
 
-![VCF Cartoon](https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf_files/figure-html/unnamed-chunk-1-1.png)
+![VCF Cartoon](%5Bhttps://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf_files/figure-html/unnamed-chunk-1-1.png)](<https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf_files/figure-html/unnamed-chunk-1-1.png>))
+
 </center>
 
 A demonstration of how the results appear in the code (as the VCF is loaded using the vcfR package)
+
 <center>
-![VCF demo1](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/VCF_demo1.png)
+
+![VCF demo1](%5Bhttps://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/VCF_demo1.png)](<https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/VCF_demo1.png>))
+
 </center>
 
------------------------------------
+------------------------------------------------------------------------
+
 ## R cheats and tips
 
 #### RDS
-The easiest way to save file for further use in R is by saving them as ".RDS" files (I saw there are python packages for reading RDS files but haven't tried). 
-All you need to do to save is run:  
+
+The easiest way to save file for further use in R is by saving them as ".RDS" files (I saw there are python packages for reading RDS files but haven't tried).
+
+All you need to do to save is run:
+
 ```{r, eval = FALSE}
-saveRDS(some_object, "some_path/some_object.RDS")  
+
+saveRDS(some_object, "some_path/some_object.RDS")
 ```
 
-All you need to do to load is run:  
+All you need to do to load is run:
+
 ```{r, eval = FALSE}
-some_object =  readRDS("some_path/some_object.RDS")  
+
+some_object = readRDS("some_path/some_object.RDS")
 ```
 
-Sometimes when reading an RDS file it is uploaded as a list containing the desired object. 
+Sometimes when reading an RDS file it is uploaded as a list containing the desired object.
 
-If that happens, run: 
+If that happens, run:
 
 ```{r, eval = FALSE}
-some_object =  readRDS("some_path/some_object.RDS")[[1]]
+
+some_object = readRDS("some_path/some_object.RDS")[[1]]
 ```
 
 #### Paths
+
 There is an issue with directories in R. It accepts only forward slashes in paths (/).
+
 A cool cheat around this is to copy the full file path (you can use Shift + Right click on a file which opens a menu with the "Copy as path" option) and then run the following line (in some constellation):
+
 ```{r, eval = FALSE}
-gsub('"',"",gsub("\\\\","/",readClipboard())) 
+gsub('"',"",gsub("\\\\\\\\","/",readClipboard()))
 ```
 
 For example, what I did is put it into a function in the beginning of markdown like this:
 
 ```{r, eval = FALSE}
-paste_directory<-function(){gsub('"',"",gsub("\\\\","/",readClipboard()))}
+paste_directory<-function(){gsub('"',"",gsub("\\\\\\\\","/",readClipboard()))}
+
 ```
 
-And then every time I copy the directory and just write in the Rstudio console: 
-```{r, eval = FALSE}
-paste_directory()
+And then every time I copy the directory and just write in the Rstudio console:
+
+```{=html}
+<code>paste_directory()</code>
 ```
 
------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+------------------------------------------------------------------------

@@ -13,6 +13,8 @@ vignette: >
 library(VCFtoGWAS)
 ```
 
+| If you have access to the Rmarkdown files, you'll find them [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/Eu-SoaGKGHpFg4vmw3foIFkBEbQX-Q1HbImk568filyjuQ?e=yTizdO)
+
 ## Step 1.1 - Upload VCF to R
 
 This step mainly uses the "[Upload_vcf_to_R](https://tomerantman.github.io/VCFtoGWAS/reference/Upload_vcf_to_R.html)" function. Description can also be seen by running <code>?Upload_vcf_to_R</code> in the console of Rstudio after loading the VCFtoGWAS package.
@@ -37,7 +39,7 @@ What is returned is a list containing a filtered fixed section and a gt section 
 
 Notice that the "unwanted" column marks a strain that isn't wanted (no pre-filtration was done). It can be omitted in the next step.
 
-![step1.1_output](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.1Output.png)
+![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.1Output.png)
 
 ------------------------------------------------------------------------
 
@@ -65,7 +67,7 @@ The function returns a list of 3 objects: the fixed information (the left part o
 
 Notice that the "unwanted" column was filtered out. Also the last row that contained all Na. If you chose to keep rows with SNPs that are 0/0 across all strains, the first row will not be omitted
 
-![step1.2_output](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.2Output.png)
+![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.2Output.png)
 
 ------------------------------------------------------------------------
 
@@ -99,7 +101,6 @@ As for the genotype matrix, we replicate rows similarly to how they were replica
 [Going from:]{.ul}
 
 >                     CCG   BNT   BHF CEQ   CFR   BQQ   
->
 >     chromosome1_33  NA    NA    NA  NA    NA    "0/0" 
 >     chromosome1_137 NA    NA    NA  "0/0" NA    NA    
 >     chromosome1_176 "0/1" "0/0" NA  "0/2" "0/0" NA    
@@ -124,7 +125,7 @@ The main function used here is "[Expand_files](https://tomerantman.github.io/VCF
 
 Notice that now every row has one REF and one ALT.
 
-![step1.3_output](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.3Output.png)
+![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.3Output.png)
 
 ------------------------------------------------------------------------
 
@@ -148,7 +149,7 @@ Notice that until now the genotypes (strains) were column names but are now row 
 
 [GWAS matrix:]{.ul} ~(rs = reference SNP)~
 
-![step1.4_output](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.4Output.png)
+![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.4Output.png)
 
 ------------------------------------------------------------------------
 
@@ -162,7 +163,7 @@ For example, for rs4 - both parents are 1 ("A/a") and therefore the probability 
 
 +-----------+--------+---------------------------------+--------+---------------------------------------------------+---------------------------------+--------+
 |           | rs1    | rs2                             | rs3    | rs4                                               | rs5                             | rs6    |
-+===========+========+=================================+========+===================================================+=================================+========+
++:=========:+:======:+:===============================:+:======:+:=================================================:+:===============================:+:======:+
 | BHF       | 0      | 0                               | 0      | 1                                                 | 1                               | 2      |
 +-----------+--------+---------------------------------+--------+---------------------------------------------------+---------------------------------+--------+
 | CEQ       | 0      | 1                               | 2      | 1                                                 | 2                               | 2      |
@@ -172,13 +173,12 @@ For example, for rs4 - both parents are 1 ("A/a") and therefore the probability 
 | **Prob.** | **1**  | $\frac{1}{2}$**/**$\frac{1}{2}$ | **1**  | $\frac{1}{4}$**/**$\frac{1}{2}$**/**$\frac{1}{4}$ | $\frac{1}{2}$**/**$\frac{1}{2}$ | **1**  |
 +-----------+--------+---------------------------------+--------+---------------------------------------------------+---------------------------------+--------+
 
-In this manner the offspring GWAS matrix is built. 
+In this manner the offspring GWAS matrix is built.
 
-Note: If either parent has missing info for a SNP (NA), the offspring will also get NA 
+Note: If either parent has missing info for a SNP (NA), the offspring will also get NA
 
-
-
-
+```{=html}
+<!---
 ## Quarterly Results {.tabset}
 
 ### By Product
@@ -188,3 +188,5 @@ Note: If either parent has missing info for a SNP (NA), the offspring will also 
 ### By Region
 
 (tab content)
+--->
+```
