@@ -1,7 +1,7 @@
 Package: VCFtoGWAS
 Type: Package
 Title: Get GWAS out of VCF file
-Version: 0.1.2
+Version: 0.2.0
 Author: Tomer Antman
 Maintainer: Tomer Antman <tomer.antman@weizmann.ac.il>
 Description: More about what it does (maybe more than one line)

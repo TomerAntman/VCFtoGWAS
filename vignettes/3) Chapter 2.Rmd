@@ -61,7 +61,7 @@ The output here is a GWAS object, out of which we will mainly use "GWAResult" an
 
 Both are lists with the "results"/"significant snps" for each tested media (what is called "trial")
 
-![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step2.2Output.png)
+![GWAS result output](./step2.2Output.png)
 
 ------------------------------------------------------------------------
 
@@ -71,35 +71,37 @@ The idea of this step is get a grasp on your results:
 
 #### [QQ:]{.ul}
 
-Use a [Quantile-Quantile plot](https://www.youtube.com/watch?v=okjYjClSjOg) to see if the p-values are uniformly distributed (up until some SNPs have a higher quantile than expected). Something like this is good:
+Use a [Quantile-Quantile plot](https://www.youtube.com/watch?v=okjYjClSjOg) to see if the p-values are uniformly distributed (up until some SNPs have a higher quantile than expected). Something like this is good (taken from actual results):
 
 <!-- ![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/QQResults.png) -->
 
-```{=html}
-<div class="row">
-  <div class="column">
-    <img src="https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/QQResults.png" alt="onGlucose" style="width:50%">
-  </div>
-  <div class="column">
-    <img src="https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/QQResults2.png" alt="onGlucose2" style="width:50%">
-  </div>
-</div>
-```
+![](./QQResults.png)
+
 This can be achieved by using the "qqman" package with the "qq" function, or by using the plot function of the "statgenGWAS" package.
 
 #### [Manhattan:]{.ul}
 
 Next you use a Manhattan plot to show if SNPs were found significant above the p-value threshold (Bonferroni or FDR)
 
-Either a simple version as can be created using the statgenGWAS package plot function: `plot(GWAS, trial="U",trait="fit")` ![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/ManhattanStatgen.png){width="50%"}
+Either a simple version as can be created using the statgenGWAS package plot function: `plot(GWAS, trial="U",trait="fit")`
+
+![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/ManhattanStatgen.png)
 
 Or by calling the VCFtoGWAS [plot_manhattan](https://tomerantman.github.io/VCFtoGWAS/reference/plot_manhattan.html) function, using ggplot and adding more info:
 
-![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/ManhattanResult.png){width="50%"}
+![](./ManhattanResult.png) <!--{width="80%"} -->
 
 #### [Polygenic Effect Score:]{.ul}
 
-Next, we compute the cumulative polygenic effect score of all the significant SNPs on the fitness. Explanation: - **Ss** = Score of a strain - **VA** = variant (snp) appearance in that strain (0/1/2) - **VE** = Variant effect (according to the GWAS). can be positive or negative Ss(i) = [VA(1)xVE(1) + VA(2)xVE(2) +...+ VA(n)xVE(n) Or in other terms: $$Ss_{i} = \sum_{i=1}^{n} VA_{i}\times VE_{i} \\$$
+Next, we compute the cumulative polygenic effect score of all the significant SNPs on the fitness. Explanation:
+
+-   **Ss** = Score of a strain
+
+-   **VA** = variant (snp) appearance in that strain (0/1/2)
+
+-   **VE** = Variant effect (according to the GWAS), can be positive or negative.
+
+Ss(i) = [VA(1)xVE(1) + VA(2)xVE(2) +...+ VA(n)xVE(n) Or in other terms: $$Ss_{i} = \sum_{i=1}^{n} VA_{i}\times VE_{i} \\$$
 
 We may assume "Haploinsufficiency[^1]" for all the SNPs when calculating the score by choosing `haplo_sufficency = FALSE` in the function "[polygenic_effect_score](https://tomerantman.github.io/VCFtoGWAS/reference/polygenic_effect_score.html)"
 
@@ -107,7 +109,7 @@ We may assume "Haploinsufficiency[^1]" for all the SNPs when calculating the sco
 
 But if it is `TRUE` than "Haplo Sufficiency" is assumed and all the places of "1" (a/A) are changed to "0" (as if they are A/A) and all the places of "2" (a/a) are given a "1" instead.
 
-Another parameter that will affect the plotted results is the `do_log2`. If true, instead of plotting the "Ss" on the X axis, the log2[(-Ss)+1] is plotted (in our case, we expect most if not all the SNPs are detrimental, so the scores will be either 0 or negative).
+Another parameter that will affect the plotted results is the `do_log2`. If true, instead of plotting the "Ss" on the X axis, the $log_2[(-Ss)+1]$ is plotted (in our case, we expect most if not all the SNPs are detrimental, so the scores will be either 0 or negative).
 
 One other thing: notice that out of this function you get 2 outputs!
 
@@ -115,9 +117,9 @@ One of them is the plot itself and the second is a data frame with a column of t
 
 Here are 2 examples of the plot output (one for a regular feature and the other for a categorized feature):
 
-![Regular Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ufit_polscore.png){width="50%"}
+![Regular Feature](./Ufit_polscore.png)<!--{width="50%"}-->
 
-![Categorized Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ubinfit_polscore.png){width="50%"}
+![Categorized Feature](./Ubinfit_polscore.png)<!--{width="50%"}-->
 
 #### [Trait distribution per SNP alleles:]{.ul}
 
@@ -125,9 +127,14 @@ To grasp the manner in which a trait distributes across all the SNPs, 3 distribu
 
 1st for the strains that are homozygous for the major allele (don't have the SNP), 2nd for heterozygous strains for the SNP, and 3rd for homozygous for the minor allele (have the SNP in both alleles).
 
-![Regular Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ufit_alleleVSfit.png){width="50%"}
+|                             |                                |
+|:---------------------------:|:------------------------------:|
+|       Regular Feature       |      Categorized Feature       |
+| ![](./Ufit_alleleVSfit.png) | ![](./Ubinfit_alleleVSfit.png) |
 
-![Categorized Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ubinfit_alleleVSfit.png){width="50%"}
+<!-- ![Regular Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ufit_alleleVSfit.png){width="50%"} -->
+
+<!-- ![Categorized Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ubinfit_alleleVSfit.png){width="50%"} -->
 
 #### [Exporting the results:]{.ul}
 
@@ -136,6 +143,7 @@ The markdown allows the creation of each plot on its own or creation of a PDF fi
 The plots will be vectors (high quality) and might be heavy. I recommend to open the PDF and print it as a PDF in a lower quality for faster skimming.
 
 The exported CSV looks something like this (per media per feature):
+
 ```{=html}
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">snp</th>
@@ -258,7 +266,5 @@ The exported CSV looks something like this (per media per feature):
 <td>…</td>
 </tr>
 </tbody></table>
-
 ```
-
 Files that contain info about the genes (that the significant SNPs might be in) are included in the package. The data is taken from the CDS file of Saccharomyces Cerevisiae.

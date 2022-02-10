@@ -75,15 +75,15 @@ The cartoon below also demonstrates the division of a VCF file into 3 sections:
 
 <center>
 
-![VCF Cartoon](%5Bhttps://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf_files/figure-html/unnamed-chunk-1-1.png)](<https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf_files/figure-html/unnamed-chunk-1-1.png>))
+![VCF Cartoon](https://grunwaldlab.github.io/Population_Genetics_in_R/reading_vcf_files/figure-html/unnamed-chunk-1-1.png){size="50%"}
 
 </center>
 
-A demonstration of how the results appear in the code (as the VCF is loaded using the vcfR package)
+A demonstration of how the results appear in the code (as the VCF is loaded using the vcfR package):
 
 <center>
 
-![VCF demo1](%5Bhttps://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/VCF_demo1.png)](<https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/VCF_demo1.png>))
+![](./VCF_demo1.png)
 
 </center>
 

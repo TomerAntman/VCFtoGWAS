@@ -10,10 +10,13 @@ vignette: >
 <!-- Website built with pkgdown::build_site()  -->
 
 ```{r setup, echo=FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
 library(VCFtoGWAS)
 ```
 
 | If you have access to the Rmarkdown files, you'll find the files for this chapter [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/Eu-SoaGKGHpFg4vmw3foIFkBLKL_LkRHQzPAhDQze6RtVw?e=BTfSCD)
+|    
+
 
 ## Step 1.1 - Upload VCF to R
 
@@ -39,7 +42,7 @@ What is returned is a list containing a filtered fixed section and a gt section 
 
 Notice that the "unwanted" column marks a strain that isn't wanted (no pre-filtration was done). It can be omitted in the next step.
 
-![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.1Output.png)
+![](./step1.1Output.png)
 
 ------------------------------------------------------------------------
 
@@ -67,7 +70,7 @@ The function returns a list of 3 objects: the fixed information (the left part o
 
 Notice that the "unwanted" column was filtered out. Also the last row that contained all Na. If you chose to keep rows with SNPs that are 0/0 across all strains, the first row will not be omitted
 
-![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.2Output.png)
+![](./step1.2Output.png)
 
 ------------------------------------------------------------------------
 
@@ -125,7 +128,7 @@ The main function used here is "[Expand_files](https://tomerantman.github.io/VCF
 
 Notice that now every row has one REF and one ALT.
 
-![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.3Output.png)
+![](./step1.3Output.png)
 
 ------------------------------------------------------------------------
 
@@ -149,7 +152,7 @@ Notice that until now the genotypes (strains) were column names but are now row 
 
 [GWAS matrix:]{.ul} ~(rs = reference SNP)~
 
-![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/step1.4Output.png)
+![](./step1.4Output.png)
 
 ------------------------------------------------------------------------
 
