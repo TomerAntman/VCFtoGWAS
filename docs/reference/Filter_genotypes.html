@@ -20,7 +20,7 @@ Afterwards, Rows that now contain irrelevant SNPs (that add no information) are 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+<!-- Change from here -->
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
           <a class="nav-link" href="../reference/index.html">Functions</a>
@@ -36,6 +36,7 @@ Afterwards, Rows that now contain irrelevant SNPs (that add no information) are 
           <li class="nav-item">
               <a class="nav-link" href="../news/index.html">Changelog</a>
           </li>
+          <!-- To here -->
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -91,34 +92,23 @@ Afterwards, Rows that now contain irrelevant SNPs (that add no information) are 
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><!-- %%  ~~ If necessary, more details than the description above ~~ --></p>
+        <p>More on the use of this function can be found at the relevant <a href="../articles/2)%20Chapter%201.html#step-1-2---filter">section</a> in chapter 1.</p>
     </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><!-- %%  ~Describe the value returned --><!-- %%  If it is a LIST, use --><!-- %%  \item{comp1 }{Description of 'comp1'} --><!-- %%  \item{comp2 }{Description of 'comp2'} --><!-- %% ... --></p>
+        <dl><dt>fix_filt</dt>
+            <dd><p>A dataframe of the fixed information. All rows have at least one "useful" value</p></dd>
+            <dt>gt_GTonly_filt</dt>
+            <dd><p>A matrix with the desired strains (after filtration)</p></dd>
+        </dl>
     </div>
-    <div class="section level2">
-    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p><!-- %% ~put references to the literature/web site here ~ --></p>
-    </div>
+<!--    <div class="section level2">-->
+<!--    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>-->
+<!--    <p>&lt;!&ndash; %% ~put references to the literature/web site here ~ &ndash;&gt;</p>-->
+<!--    </div>-->
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Tomer Antman</p>
-    </div>
-    <div class="section level2">
-    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p><!-- %%  ~~further notes~~ --></p>
-    </div>
-    <div class="section level2">
-    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><!-- %% ~~objects to See Also as \code{\link{help}}, ~~~ --></p></div>
-    </div>
-
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"></span>
-</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
