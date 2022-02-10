@@ -7,5 +7,5 @@
 VCFtoGWAS.Rproj
 .Rproj*
 
+# passwords
 passwords.txt
-docs

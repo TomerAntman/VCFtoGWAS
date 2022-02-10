@@ -23,19 +23,19 @@ Afterwards, Rows that now contain irrelevant SNPs (that add no information) are 
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/1)%20General.html">General</a>
-    <a class="dropdown-item" href="../articles/2)%20Chapter%201.html">Chapter 1 - VCF file to GWAS matrix</a>
-    <a class="dropdown-item" href="../articles/3)%20Chapter%202.html">Chapter 2 - Run GWAS and Analyze</a>
-  </div>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+          <a class="nav-link" href="../reference/index.html">Functions</a>
+      </li>
+          <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Manual</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+                  <a class="dropdown-item" href="../articles/1)%20General.html">1) General</a>
+                  <a class="dropdown-item" href="../articles/2)%20Chapter%201.html">2) Chapter 1</a>
+                  <a class="dropdown-item" href="../articles/3)%20Chapter%202.html">3) Chapter 2</a>
+              </div>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="../news/index.html">Changelog</a>
+          </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -74,9 +74,9 @@ Afterwards, Rows that now contain irrelevant SNPs (that add no information) are 
     <dl><dt>genotype_matrix</dt>
 <dd><p>Gentoype matrix where rows are SNPs (variants) and columns are strains (genotypes) as was created in step 1 by <code><a href="Upload_vcf_to_R.html">Upload_vcf_to_R</a></code></p></dd>
 <dt>fixed_data</dt>
-<dd><p><!-- %%     ~~Describe \code{fixed_data} here~~ --></p></dd>
+<dd><p>The fixed information extracted from the VCF (after step 1)</p></dd>
 <dt>strains</dt>
-<dd><p><!-- %%     ~~Describe \code{strains} here~~ --></p></dd>
+<dd><p>An array of the strains that you wish to keep (if empty (default), all are kept)</p></dd>
 <dt>dir_results</dt>
 <dd><p>he directory in which a folder will be created and results will be saved. Make sure it exists!!!</p></dd>
 <dt>results_name</dt>
@@ -103,7 +103,7 @@ Afterwards, Rows that now contain irrelevant SNPs (that add no information) are 
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
-    <p><!-- %%  ~~who you are~~ --></p>
+    <p>Tomer Antman</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
