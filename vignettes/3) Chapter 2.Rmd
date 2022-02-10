@@ -10,10 +10,11 @@ vignette: >
 <!-- Website built with pkgdown::build_site()  -->
 
 ```{r setup, echo=FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
 library(VCFtoGWAS)
 ```
 
-| If you have access to the Rmarkdown files, you'll find the files for this chapter [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/EguMukXHpppAg4O4d2aP0f8BOifz0nWod-xTC_-pqnz2EA?e=3jXJ8p)
+> If you have access to the Rmarkdown files, you'll find the files for this chapter [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/EguMukXHpppAg4O4d2aP0f8BOifz0nWod-xTC_-pqnz2EA?e=3jXJ8p)
 
 In this chapter the GWAS is executed and the results are then analyzed. The package "[statgenGWAS](https://github.com/Biometris/statgenGWAS/)" is the package that will mainly be used. To run the single-trait-GWAS, an object known as "gData" object needs to be provided.
 
@@ -89,10 +90,7 @@ Either a simple version as can be created using the statgenGWAS package plot fun
 
 Or by calling the VCFtoGWAS [plot_manhattan](https://tomerantman.github.io/VCFtoGWAS/reference/plot_manhattan.html) function, using ggplot and adding more info:
 
-![](./ManhattanResult.png) <!--{width="80%"} -->
-
-...
-![Manhat SVG](./ManhatUfit_60.svg)
+![](./ManhatUfit_60.svg)
 
 #### [Polygenic Effect Score:]{.ul}
 
@@ -122,7 +120,9 @@ Here are 2 examples of the plot output (one for a regular feature and the other 
 
 ![Regular Feature](./Ufit_polscore.png)<!--{width="50%"}-->
 
+
 ![Categorized Feature](./Ubinfit_polscore.png)<!--{width="50%"}-->
+
 
 #### [Trait distribution per SNP alleles:]{.ul}
 
@@ -130,12 +130,13 @@ To grasp the manner in which a trait distributes across all the SNPs, 3 distribu
 
 1st for the strains that are homozygous for the major allele (don't have the SNP), 2nd for heterozygous strains for the SNP, and 3rd for homozygous for the minor allele (have the SNP in both alleles).
 
-|                             |
-|:---------------------------:|
-|       Regular Feature       |
-| ![](./Ufit_alleleVSfit.svg) |
-|      Categorized Feature       |
-| ![](./Ubinfit_alleleVSfit.svg) |
+![Regular Feature](./Ufit_alleleVSfit.svg)
+In the plot above, each box represents a SNP that was identified as significant. The X axis represents the trait (fitness in this case) and the y axis the density (frequency). The color represents the allele presence (0/0 is A/A, 0/1 is a/A, 1/1 is A/A). In each box, the number of times the "SNP presence" appears in the population is noted (top left). This plot gives a slight intuition regarding the effect of each SNP on its own (also regarding haplosufficiency)
+
+![Categorized Feature](./Ubinfit_alleleVSfit.svg)
+In the plot above, each box represents a SNP that was identified as significant. The discrete X axis represents the categorized trait (binary fitness in this case) and the y axis the allele presence (0/0 is A/A, 0/1 is a/A, 1/1 is A/A). In bubble, the number of times that the "SNP presence" appears in the population, for the specific feature category, is noted (top left). This plot also gives a slight intuition regarding the effect of each SNP on its own (also regarding haplosufficiency)
+
+these plots are created using the [allele_presence_plot](https://tomerantman.github.io/VCFtoGWAS/reference/allele_presence_plot.html) function. 
 
 <!-- ![Regular Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ufit_alleleVSfit.png){width="50%"} -->
 

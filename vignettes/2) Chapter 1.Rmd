@@ -14,9 +14,8 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 library(VCFtoGWAS)
 ```
 
-| If you have access to the Rmarkdown files, you'll find the files for this chapter [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/Eu-SoaGKGHpFg4vmw3foIFkBLKL_LkRHQzPAhDQze6RtVw?e=BTfSCD)
-|    
-
+> If you have access to the Rmarkdown files, you'll find the files for this chapter [here](https://weizmannacil-my.sharepoint.com/:f:/g/personal/tomer_antman_weizmann_ac_il/Eu-SoaGKGHpFg4vmw3foIFkBLKL_LkRHQzPAhDQze6RtVw?e=BTfSCD)
+    
 
 ## Step 1.1 - Upload VCF to R
 
