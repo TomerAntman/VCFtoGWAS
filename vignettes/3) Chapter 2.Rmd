@@ -10,7 +10,7 @@ vignette: >
 <!-- Website built with pkgdown::build_site()  -->
 
 ```{r setup, echo=FALSE}
-options(rmarkdown.html_vignette.check_title = FALSE)
+old <- options(rmarkdown.html_vignette.check_title = FALSE)
 library(VCFtoGWAS)
 ```
 
@@ -274,3 +274,7 @@ The exported CSV looks something like this (per media per feature):
 </tbody></table>
 ```
 Files that contain info about the genes (that the significant SNPs might be in) are included in the package. The data is taken from the CDS file of Saccharomyces Cerevisiae.
+
+```{r, echo=FALSE, results='hide'}
+options(old) # restore user's original options before finishing, per CRAN
+```

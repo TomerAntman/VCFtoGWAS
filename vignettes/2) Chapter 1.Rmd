@@ -10,7 +10,7 @@ vignette: >
 <!-- Website built with pkgdown::build_site()  -->
 
 ```{r setup, echo=FALSE}
-options(rmarkdown.html_vignette.check_title = FALSE)
+old <- options(rmarkdown.html_vignette.check_title = FALSE)
 library(VCFtoGWAS)
 ```
 
@@ -191,4 +191,8 @@ Note: If either parent has missing info for a SNP (NA), the offspring will also 
 
 (tab content)
 --->
+```
+
+```{r, echo=FALSE, results='hide'}
+options(old) # restore user's original options before finishing, per CRAN
 ```
