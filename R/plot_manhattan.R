@@ -61,8 +61,6 @@ plot_manhattan <- function(GWAS,
   # Prepare X axis
   axisdf <- don %>% group_by(CHR) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 )
 
-
-
   # Make the plot
   manhat_plot<- ggplot(don, aes(x=BPcum, y=-log10(P)))
 
@@ -100,7 +98,9 @@ plot_manhattan <- function(GWAS,
       scale_fill_manual(values = c("green", "orange"),drop = FALSE)
 
   }
-
+  # med_value = as.vector(quantile(abs(don$EFF)[don$is_annotate=="yes"], probs = 0.7, na.rm=T))
+  # don$is_annotate[abs(don$EFF) < 0.7*max(abs(don$EFF)[don$is_annotate=="yes"])] <- "no" # only mark the upper quantile of the effect sizes
+  don$is_annotate[abs(don$EFF) < as.vector(quantile(abs(don$EFF)[don$is_annotate=="yes"], probs = 0.7, na.rm=T))] <- "no"
   manhat_plot<-manhat_plot +
 
     # Pvalue line

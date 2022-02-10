@@ -17,16 +17,17 @@ allele_presence_plot<-function(gData,
   markers <- gData$markers[,colnames(gData$markers) %in% sigsnp]
   phenos <- gData$pheno[[GWAS_trial_name]]
 
-  temp_df <- as.data.frame(matrix(nrow = nrow(markers), ncol = 2))
-  colnames(temp_df) <- c("genotype",checked_trait)
-  rownames(temp_df) <- rownames(markers)
+  temp_df <- as.data.frame(matrix(nrow = nrow(markers), ncol = 1))
+  colnames(temp_df) <- c(checked_trait)
+  rownames(temp_df) <- phenos["genotype"][[1]]
+  temp_df[,1] <- phenos[,checked_trait]
+
+  # strains <- phenos["genotype"][[1]]
+  # temp_df[strains,] <- phenos[, c("genotype",checked_trait)]
 
 
-  strains <- phenos["genotype"][[1]]
-  temp_df[strains,] <- phenos[, c("genotype",checked_trait)]
-
-
-  df_hist <- cbind(temp_df,markers)
+  df_hist <- merge(temp_df,markers, by=0, all=TRUE)
+  colnames(df_hist)[1] <- "genotype"
 
   molten.data <- melt(as.data.table(df_hist), id = c("genotype",checked_trait))
   colnames(molten.data)[c(2,4)]<- c("trait","allele_presence")
@@ -52,9 +53,10 @@ allele_presence_plot<-function(gData,
       for (trait in unique(molten.data$trait)){
         for (allele in c(0,1,2)){
           relevant_rows <- (molten.data$variable == var & molten.data$trait == trait & molten.data$allele_presence == allele)
-          molten.data$count[relevant_rows] <- length(which(relevant_rows))
+          molten.data$count[relevant_rows] <- length(which(relevant_rows)) # each row has information (count column about the number of times it appears)
+          }
         }
-      }}
+      }
     color_hues <- gg_color_hue(length(unique(molten.data$trait)))
 
     pp <- ggplot(molten.data, aes(x = as.factor(trait),

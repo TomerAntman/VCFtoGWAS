@@ -75,7 +75,7 @@ Use a [Quantile-Quantile plot](https://www.youtube.com/watch?v=okjYjClSjOg) to s
 
 <!-- ![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/QQResults.png) -->
 
-![](./QQResults.png)
+![](./QQresultsYfit.svg)
 
 This can be achieved by using the "qqman" package with the "qq" function, or by using the plot function of the "statgenGWAS" package.
 
@@ -85,11 +85,14 @@ Next you use a Manhattan plot to show if SNPs were found significant above the p
 
 Either a simple version as can be created using the statgenGWAS package plot function: `plot(GWAS, trial="U",trait="fit")`
 
-![](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/ManhattanStatgen.png)
+![](./ManhattanStatgen.png)
 
 Or by calling the VCFtoGWAS [plot_manhattan](https://tomerantman.github.io/VCFtoGWAS/reference/plot_manhattan.html) function, using ggplot and adding more info:
 
 ![](./ManhattanResult.png) <!--{width="80%"} -->
+
+...
+![Manhat SVG](./ManhatUfit_60.svg)
 
 #### [Polygenic Effect Score:]{.ul}
 
@@ -127,10 +130,12 @@ To grasp the manner in which a trait distributes across all the SNPs, 3 distribu
 
 1st for the strains that are homozygous for the major allele (don't have the SNP), 2nd for heterozygous strains for the SNP, and 3rd for homozygous for the minor allele (have the SNP in both alleles).
 
-|                             |                                |
-|:---------------------------:|:------------------------------:|
-|       Regular Feature       |      Categorized Feature       |
-| ![](./Ufit_alleleVSfit.png) | ![](./Ubinfit_alleleVSfit.png) |
+|                             |
+|:---------------------------:|
+|       Regular Feature       |
+| ![](./Ufit_alleleVSfit.svg) |
+|      Categorized Feature       |
+| ![](./Ubinfit_alleleVSfit.svg) |
 
 <!-- ![Regular Feature](https://raw.githubusercontent.com/TomerAntman/VCFtoGWAS/main/man/figures/Ufit_alleleVSfit.png){width="50%"} -->
 
